@@ -29,9 +29,9 @@ impl MinesweeperDrawer {
 
     fn get_location() -> Point {
         println!("X coordinate:");
-        let x = MinesweeperDrawer::get_num();
+        let x = MinesweeperDrawer::get_num() - 1;
         println!("Y coordinate:");
-        let y = MinesweeperDrawer::get_num();
+        let y = MinesweeperDrawer::get_num() - 1;
         Point::new(x,y)
     }
 
@@ -41,11 +41,11 @@ impl MinesweeperDrawer {
             let mut buf = String::new();
             if let Ok(_) = io::stdin().read_line(&mut buf){
                 buf = buf.trim().to_string();
-                if buf.eq_ignore_ascii_case("reveal") {
+                if buf.starts_with("r") {
                     let loc = MinesweeperDrawer::get_location();
                     self.game.reveal(loc.x, loc.y);
                 }
-                else if buf.eq_ignore_ascii_case("flag") {
+                else if buf.starts_with("f") {
                     let loc = MinesweeperDrawer::get_location();
                     self.game.flag(loc.x, loc.y);
                 }
@@ -75,10 +75,16 @@ impl MinesweeperDrawer {
     }
 
     fn draw_board(&self){
-        for x in 0..self.game.board_size.x {
-            for y in 0..self.game.board_size.y{
+        print!("  ");
+        for i in 0..self.game.board_size.x {
+            print!("{:X} ", i+1);
+        }
+        println!();
+        for y in 0..self.game.board_size.y {
+            print!("{:X} ", y+1);
+            for x in 0..self.game.board_size.x{
                 let id = self.game.calculate_index_by_coords(x, y);
-                print!("{}", match self.game.board[id as usize]{
+                print!("{} ", match self.game.board[id as usize]{
                     Squares::ClosedBomb => { "?".to_string() },
                     Squares::ClosedSafe => { "?".to_string() },
                     Squares::FlaggedBomb => { "X".to_string() },

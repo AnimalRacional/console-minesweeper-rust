@@ -48,7 +48,7 @@ impl MinesweeperGame {
 
     fn reset_board(&mut self){
         self.board.clear();
-        let board_size = self.board_size.x * self.board_size.y;
+        let board_size: i32 = self.board_size.x * self.board_size.y;
         for _ in 0..board_size {
             self.board.push(Squares::ClosedSafe);
         }
