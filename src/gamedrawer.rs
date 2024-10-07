@@ -1,6 +1,6 @@
 use crate::minesweeper::{MinesweeperGame, Squares, State, Point};
 use crate::debugging;
-use std::io::{self, Write};
+use std::io::{self};
 
 pub struct MinesweeperDrawer {
     game: MinesweeperGame
